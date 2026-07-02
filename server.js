@@ -1,15 +1,11 @@
 const express = require("express");
-
 const dotenv = require("dotenv");
-
 const cors = require("cors");
 
 const connectDB = require("./config/db");
 
 const userRoutes = require("./routes/userRoutes");
-
 const quizRoutes = require("./routes/quizRoutes");
-
 const resultRoutes = require("./routes/resultRoutes");
 
 dotenv.config();
@@ -18,27 +14,7 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
-
-app.use(express.json());
-
-app.use("/api/quizzes", quizRoutes);
-
-
-app.use("/api/users", userRoutes);
-
-app.use("/api/results", resultRoutes);
-
-
-const PORT = process.env.PORT || 5000;
-
-app.get("/", (req, res) => {
-  res.send("Backend Server Running");
-});
-
-
-const cors = require("cors");
-
+/* ===== CORS Configuration ===== */
 app.use(
   cors({
     origin: [
@@ -48,6 +24,22 @@ app.use(
     credentials: true,
   })
 );
+
+/* ===== Middleware ===== */
+app.use(express.json());
+
+/* ===== Routes ===== */
+app.use("/api/users", userRoutes);
+app.use("/api/quizzes", quizRoutes);
+app.use("/api/results", resultRoutes);
+
+/* ===== Test Route ===== */
+app.get("/", (req, res) => {
+  res.send("Backend Server Running");
+});
+
+/* ===== Server ===== */
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
