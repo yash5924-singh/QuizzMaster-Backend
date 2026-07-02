@@ -36,6 +36,19 @@ app.get("/", (req, res) => {
   res.send("Backend Server Running");
 });
 
+
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://quizz-master-frontend.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
